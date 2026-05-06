@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Rachanatmak</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <div class="admin-top">
+      <div>
+        <p class="eyebrow">Client dashboard</p>
+        <h1 class="admin-title">Artworks</h1>
+      </div>
+      <div>
+        <a class="logo" href="/" aria-label="Rachanatmak home" style="margin-right:18px">रचनात्मक</a>
+        <a class="button secondary" href="/">View site</a>
+        <form method="POST" action="/admin/logout" style="display:inline">
+          <button class="button" type="submit">Logout</button>
+        </form>
+      </div>
+    </div>
+
+    <section class="admin-layout">
+      <form class="admin-card" data-admin-form>
+        <h2 class="section-title" style="font-size:48px">Upload</h2>
+        <label class="field">
+          <span>Artwork title</span>
+          <input name="title" type="text" required>
+        </label>
+        <label class="field">
+          <span>Category</span>
+          <input name="category" type="text" placeholder="Painting, Illustration, Mixed media" required>
+        </label>
+        <label class="field">
+          <span>Year</span>
+          <input name="year" type="number" min="1900" max="2100" required>
+        </label>
+        <label class="field">
+          <span>Image</span>
+          <input name="image" type="file" accept="image/*" required>
+        </label>
+        <button class="button" type="submit">Upload artwork</button>
+        <p class="form-status" data-admin-status></p>
+      </form>
+
+      <div>
+        <div class="admin-work-list" data-admin-works></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

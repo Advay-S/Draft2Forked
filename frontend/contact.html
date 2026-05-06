@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Rachanatmak</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="page-transition-overlay"></div>
+
+  <nav class="navbar">
+    <a class="navbar-logo" href="/index.html" aria-label="Rachanatmak home">रचनात्मक</a>
+    <div class="navbar-links">
+      <a href="/index.html">Home</a>
+      <a href="/works.html">Works</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+    <span class="navbar-right">Studio · Pune</span>
+    <button class="navbar-hamburger" type="button" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="navbar-mobile-drawer">
+    <a href="/index.html">Home</a>
+    <a href="/works.html">Works</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+
+  <main>
+    <section class="contact-section">
+      <div class="contact-left">
+        <h1 class="contact-heading reveal">Let's<br>talk.</h1>
+        <div class="contact-info reveal">
+          <div class="contact-info-item">
+            <span class="contact-info-label">Name</span>
+            <span class="contact-info-value">Rachana U. Shirkande</span>
+          </div>
+          <div class="contact-info-item">
+            <span class="contact-info-label">Phone</span>
+            <span class="contact-info-value"><a href="tel:+918275223989">+91 82752 23989</a></span>
+          </div>
+          <div class="contact-info-item">
+            <span class="contact-info-label">Email</span>
+            <span class="contact-info-value"><a href="mailto:rachanashirkande28@gmail.com">rachanashirkande28@gmail.com</a></span>
+          </div>
+        </div>
+        <div class="contact-services-list reveal">
+          <div class="contact-service-item">Residential Design</div>
+          <div class="contact-service-item">Commercial Spaces</div>
+          <div class="contact-service-item">Corporate Interiors</div>
+        </div>
+      </div>
+
+      <div class="contact-right">
+        <form class="contact-form reveal" data-contact-form>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="name">Name</label>
+              <input class="form-input" id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" id="email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="service">Service</label>
+            <select class="form-select" id="service" name="service">
+              <option value="">Select a service</option>
+              <option value="residential">Residential</option>
+              <option value="commercial">Commercial</option>
+              <option value="corporate">Corporate</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+          </div>
+          <button class="form-submit" type="submit">Send Message <span>→</span></button>
+          <p class="form-submit-status" data-contact-status></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bg"></div>
+    <svg class="footer-botanical" viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M100 380 C100 300 60 260 80 180 C100 100 140 80 100 20" stroke="white" stroke-width="1.5"/>
+      <path d="M80 180 C60 160 20 155 10 130" stroke="white"/>
+      <path d="M80 220 C55 205 15 210 5 185" stroke="white"/>
+      <path d="M90 150 C115 130 145 135 155 110" stroke="white"/>
+      <path d="M95 260 C120 245 150 250 160 225" stroke="white"/>
+      <ellipse cx="10" cy="125" rx="12" ry="8" stroke="white" stroke-width="0.8"/>
+      <ellipse cx="5" cy="180" rx="10" ry="7" stroke="white" stroke-width="0.8"/>
+      <ellipse cx="155" cy="105" rx="11" ry="7" stroke="white" stroke-width="0.8"/>
+      <ellipse cx="160" cy="220" rx="12" ry="8" stroke="white" stroke-width="0.8"/>
+    </svg>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-logo-block">
+          <div class="footer-logo">रचनात्मक</div>
+          <p class="footer-tagline">Art · Space · Identity</p>
+          <div class="footer-services-list">
+            <span>Residential</span>
+            <span>Commercial</span>
+            <span>Corporate</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <address>
+            Rachana U. Shirkande<br>
+            <a href="tel:+918275223989">+91 82752 23989</a><br>
+            <a href="mailto:rachanashirkande28@gmail.com">rachanashirkande28@gmail.com</a>
+          </address>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <nav class="footer-nav-links">
+            <a href="/index.html">Home</a>
+            <a href="/works.html">Works</a>
+            <a href="/about.html">About</a>
+            <a href="/contact.html">Contact</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Rachanatmak. All rights reserved.</span>
+        <span>Pune, India</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/contact.js"></script>
+</body>
+</html>
