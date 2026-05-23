@@ -49,9 +49,9 @@
           </div>
         </div>
         <div class="contact-services-list reveal">
-          <div class="contact-service-item">Residential Design</div>
-          <div class="contact-service-item">Commercial Spaces</div>
-          <div class="contact-service-item">Corporate Interiors</div>
+          <div class="contact-service-item">Wall Murals</div>
+          <div class="contact-service-item">Textured Arts</div>
+          <div class="contact-service-item">Canvas Paintings</div>
         </div>
       </div>
 
@@ -67,13 +67,30 @@
               <input class="form-input" id="email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="service">Service</label>
-            <select class="form-select" id="service" name="service">
-              <option value="">Select a service</option>
-              <option value="residential">Residential</option>
-              <option value="commercial">Commercial</option>
-              <option value="corporate">Corporate</option>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone</label>
+              <input class="form-input" id="phone" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="service">Service</label>
+              <select class="form-select" id="service" name="service" data-service-select>
+                <option value="">Select a service</option>
+                <option value="wall-murals">Wall Murals</option>
+                <option value="textured-arts">Textured Arts</option>
+                <option value="canvas-paintings">Canvas Paintings</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" id="canvas-size-group" style="display:none;">
+            <label class="form-label" for="canvas-size">Canvas Size</label>
+            <select class="form-select" id="canvas-size" name="canvas-size">
+              <option value="">Select canvas size</option>
+              <option value="small">Small (8x10)</option>
+              <option value="medium">Medium (12x16)</option>
+              <option value="large">Large (18x24)</option>
+              <option value="extra-large">Extra Large (24x36)</option>
+              <option value="custom">Custom Size</option>
             </select>
           </div>
           <div class="form-group">
@@ -125,7 +142,6 @@
             <a href="index.html">Home</a>
             <a href="works.html">Works</a>
             <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
           </nav>
         </div>
       </div>

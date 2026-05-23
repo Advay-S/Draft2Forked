@@ -179,9 +179,28 @@
 
       worksGrid.querySelectorAll('.work-card').forEach((card) => {
         const match = category === 'all' || card.dataset.category === category;
-        card.classList.toggle('filtered-out', !match);
+        // Only show cards that match the selected category
+        card.style.display = match ? '' : 'none';
       });
+
+      // Show/hide insight cards based on filter
+      const insightsContainer = document.querySelector('[data-insights-container]');
+      if (insightsContainer) {
+        const insightCards = insightsContainer.querySelectorAll('[data-insight-filter]');
+        insightCards.forEach((card) => {
+          const insightFilter = card.dataset.insightFilter;
+          const shouldShow = category !== 'all' && insightFilter === category;
+          card.style.display = shouldShow ? 'block' : 'none';
+        });
+        insightsContainer.style.display = category === 'all' ? 'none' : 'block';
+      }
     }, { once: false });
+
+    // Hide insights on initial load
+    const insightsContainer = document.querySelector('[data-insights-container]');
+    if (insightsContainer) {
+      insightsContainer.style.display = 'none';
+    }
   }
 
   function renderWorks(works) {
@@ -193,21 +212,131 @@
     worksGrid.innerHTML = works
       .map((work, index) => {
         const category = String(work.category || 'All');
+        const imageUrl = work.imageUrl || work.image || '';
+        const title = work.title || 'Untitled';
+        const year = work.year || '';
 
         return `
-          <article class="work-card reveal" data-category="${escapeHtml(category.toLowerCase())}" style="transition-delay:${index * 0.06}s">
-            <img src="${work.imageUrl || work.image || ''}" alt="${escapeHtml(work.title || 'Artwork')}" loading="lazy">
+          <article class="work-card reveal" tabindex="0" role="button" aria-label="Open ${escapeHtml(title)}" data-category="${escapeHtml(category.toLowerCase())}" data-image="${escapeHtml(imageUrl)}" data-title="${escapeHtml(title)}" data-meta="${escapeHtml(`${category} | ${year}`)}" style="transition-delay:${index * 0.06}s">
+            <img src="${imageUrl}" alt="${escapeHtml(title)}" loading="lazy">
             <div class="work-card-overlay">
-              <div class="work-card-title">${escapeHtml(work.title || 'Untitled')}</div>
-              <div class="work-card-cat">${escapeHtml(category)} | ${escapeHtml(work.year || '')}</div>
+              <div class="work-card-title">${escapeHtml(title)}</div>
+              <div class="work-card-cat">${escapeHtml(category)} | ${escapeHtml(year)}</div>
             </div>
-            <div class="work-card-arrow" aria-hidden="true">↗</div>
+            <button class="work-card-arrow" type="button" aria-label="Open ${escapeHtml(title)}">↗</button>
           </article>
         `;
       })
       .join('');
 
     initScrollReveal();
+    initWorkLightbox();
+  }
+
+  function initWorkLightbox() {
+    if (!worksGrid || worksGrid.dataset.lightboxReady === 'true') {
+      return;
+    }
+
+    worksGrid.dataset.lightboxReady = 'true';
+
+    worksGrid.addEventListener('click', (event) => {
+      const card = event.target.closest('.work-card');
+
+      if (!card || card.classList.contains('filtered-out')) {
+        return;
+      }
+
+      openWorkLightbox(card);
+    });
+
+    worksGrid.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') {
+        return;
+      }
+
+      const card = event.target.closest('.work-card');
+
+      if (!card || card.classList.contains('filtered-out')) {
+        return;
+      }
+
+      event.preventDefault();
+      openWorkLightbox(card);
+    });
+  }
+
+  function openWorkLightbox(card) {
+    const image = card.dataset.image;
+
+    if (!image) {
+      return;
+    }
+
+    const lightbox = getWorkLightbox();
+    const img = lightbox.querySelector('[data-lightbox-image]');
+    const title = lightbox.querySelector('[data-lightbox-title]');
+    const meta = lightbox.querySelector('[data-lightbox-meta]');
+
+    img.src = image;
+    img.alt = card.dataset.title || 'Artwork';
+    title.textContent = card.dataset.title || 'Untitled';
+    meta.textContent = card.dataset.meta || '';
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+    lightbox.querySelector('[data-lightbox-close]').focus();
+  }
+
+  function getWorkLightbox() {
+    let lightbox = document.querySelector('[data-work-lightbox]');
+
+    if (lightbox) {
+      return lightbox;
+    }
+
+    lightbox = document.createElement('div');
+    lightbox.className = 'work-lightbox';
+    lightbox.dataset.workLightbox = '';
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightbox.innerHTML = `
+      <div class="work-lightbox-backdrop" data-lightbox-close></div>
+      <figure class="work-lightbox-panel" role="dialog" aria-modal="true" aria-label="Artwork preview">
+        <button class="work-lightbox-close" type="button" data-lightbox-close aria-label="Close image">×</button>
+        <img class="work-lightbox-image" data-lightbox-image src="" alt="">
+        <figcaption class="work-lightbox-caption">
+          <span data-lightbox-title></span>
+          <small data-lightbox-meta></small>
+        </figcaption>
+      </figure>
+    `;
+    document.body.appendChild(lightbox);
+
+    lightbox.addEventListener('click', (event) => {
+      if (event.target.closest('[data-lightbox-close]')) {
+        closeWorkLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightbox.classList.contains('open')) {
+        closeWorkLightbox();
+      }
+    });
+
+    return lightbox;
+  }
+
+  function closeWorkLightbox() {
+    const lightbox = document.querySelector('[data-work-lightbox]');
+
+    if (!lightbox) {
+      return;
+    }
+
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lightbox-open');
   }
 
   function initPointerTilt() {
@@ -228,52 +357,207 @@
   function getGithubPagesWorks() {
     return [
       {
-        _id: 'demo-01',
-        title: 'Lake View Balcony',
-        category: 'Residential',
-        year: 2023,
-        imageUrl: createArtworkSvg({
-          sky: '#61c8ee',
-          water: '#7fc9d6',
-          accent: '#356b2f',
-          floor: '#57401f'
-        })
-      },
-      {
-        _id: 'demo-02',
-        title: 'Quiet Geometry',
-        category: 'Commercial',
-        year: 2025,
-        imageUrl: createArtworkSvg({
-          sky: '#d8e0d7',
-          water: '#567ba4',
-          accent: '#d97a31',
-          floor: '#2a2a33'
-        })
-      },
-      {
-        _id: 'demo-03',
-        title: 'Warm Interior Study',
-        category: 'Corporate',
-        year: 2024,
-        imageUrl: createArtworkSvg({
-          sky: '#efe4cb',
-          water: '#8f8a71',
-          accent: '#ce5a2b',
-          floor: '#4f3625'
-        })
-      },
-      {
-        _id: 'demo-04',
-        title: 'Garden Threshold',
-        category: 'Residential',
+        _id: 'texture-01',
+        title: 'Texture Art Study 01',
+        category: 'Texture Art',
         year: 2026,
-        imageUrl: createArtworkSvg({
-          sky: '#b7dfe6',
-          water: '#639ec2',
-          accent: '#4f8d38',
-          floor: '#49311e'
-        })
+        imageUrl: 'assets/works/texture-art-01.jpeg'
+      },
+      {
+        _id: 'texture-02',
+        title: 'Texture Art Study 02',
+        category: 'Texture Art',
+        year: 2026,
+        imageUrl: 'assets/works/texture-art-02.jpeg'
+      },
+      {
+        _id: 'texture-03',
+        title: 'Texture Art Study 03',
+        category: 'Texture Art',
+        year: 2026,
+        imageUrl: 'assets/works/texture-art-03.jpeg'
+      },
+      {
+        _id: 'texture-04',
+        title: 'Texture Art Study 04',
+        category: 'Texture Art',
+        year: 2026,
+        imageUrl: 'assets/works/texture-art-04.jpeg'
+      },
+      {
+        _id: 'texture-05',
+        title: 'Texture Art Study 05',
+        category: 'Texture Art',
+        year: 2026,
+        imageUrl: 'assets/works/texture-art-05.jpeg'
+      },
+      {
+        _id: 'mural-01',
+        title: 'Wall Mural Study 01',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-01.jpeg'
+      },
+      {
+        _id: 'mural-02',
+        title: 'Wall Mural Study 02',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-02.jpeg'
+      },
+      {
+        _id: 'mural-03',
+        title: 'Wall Mural Study 03',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-03.jpeg'
+      },
+      {
+        _id: 'mural-04',
+        title: 'Wall Mural Study 04',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-04.jpeg'
+      },
+      {
+        _id: 'mural-05',
+        title: 'Wall Mural Study 05',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-05.jpeg'
+      },
+      {
+        _id: 'mural-06',
+        title: 'Wall Mural Study 06',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-06.jpeg'
+      },
+      {
+        _id: 'mural-07',
+        title: 'Wall Mural Study 07',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-07.jpeg'
+      },
+      {
+        _id: 'mural-08',
+        title: 'Wall Mural Study 08',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-08.jpeg'
+      },
+      {
+        _id: 'mural-09',
+        title: 'Wall Mural Study 09',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-09.jpeg'
+      },
+      {
+        _id: 'mural-10',
+        title: 'Wall Mural Study 10',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-10.jpeg'
+      },
+      {
+        _id: 'mural-11',
+        title: 'Wall Mural Study 11',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-11.jpeg'
+      },
+      {
+        _id: 'mural-12',
+        title: 'Wall Mural Study 12',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-12.jpeg'
+      },
+      {
+        _id: 'mural-13',
+        title: 'Wall Mural Study 13',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wall-mural-13.jpeg'
+      },
+      {
+        _id: 'bedback-01',
+        title: 'Bedback Mural Study 01',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-03.jpeg'
+      },
+      {
+        _id: 'bedback-02',
+        title: 'Bedback Mural Study 02',
+        category: 'Wall Murals',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-04.jpeg'
+      },
+      {
+        _id: 'wardrobe-01',
+        title: 'Wardrobe Study 01',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-01.jpeg'
+      },
+      {
+        _id: 'wardrobe-02',
+        title: 'Wardrobe Study 02',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-02.jpeg'
+      },
+      {
+        _id: 'wardrobe-03',
+        title: 'Wardrobe Study 03',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-03.jpeg'
+      },
+      {
+        _id: 'wardrobe-04',
+        title: 'Wardrobe Study 04',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-04.jpeg'
+      },
+      {
+        _id: 'wardrobe-05',
+        title: 'Wardrobe Study 05',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-05.jpeg'
+      },
+      {
+        _id: 'wardrobe-06',
+        title: 'Wardrobe Study 06',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-06.jpeg'
+      },
+      {
+        _id: 'wardrobe-07',
+        title: 'Wardrobe Study 07',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-07.jpeg'
+      },
+      {
+        _id: 'wardrobe-08',
+        title: 'Wardrobe Study 08',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-08.jpeg'
+      },
+      {
+        _id: 'wardrobe-09',
+        title: 'Wardrobe Study 09',
+        category: 'Wardrobes',
+        year: 2026,
+        imageUrl: 'assets/works/wardrobe-09.jpeg'
       }
     ];
   }
