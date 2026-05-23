@@ -1323,18 +1323,7 @@ main {
 }
 
 .work-insights-section::before {
-  content: "";
-  position: absolute;
-  top: 96px;
-  right: 4%;
-  width: min(34vw, 420px);
-  aspect-ratio: 1;
-  border: 1.5px solid var(--black);
-  background:
-    repeating-linear-gradient(135deg, transparent 0 12px, rgba(147, 195, 219, 0.32) 12px 16px),
-    var(--sky-blue);
-  opacity: 0.35;
-  transform: rotate(5deg);
+  display: none;
 }
 
 .work-insights-grid {
