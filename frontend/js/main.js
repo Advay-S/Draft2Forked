@@ -151,6 +151,73 @@
     }
   }
 
+  /* Insight card content keyed by category (lowercase, matches data-filter values) */
+  const INSIGHT_DATA = {
+    'wall murals': {
+      kicker: 'Wall Murals',
+      modifier: 'insight-card-murals',
+      points: [
+        'Large-scale artworks created directly on walls to enhance spaces and create striking feature walls.',
+        'Highly customizable in terms of theme, style, color palette, and scale.',
+        'Seamlessly integrates with the architecture and overall character of the environment.',
+        'Durable and long-lasting when professionally executed, unlike wallpapers that may peel, fade, or wear over time.'
+      ]
+    },
+    'canvas paintings': {
+      kicker: 'Canvas Paintings',
+      modifier: 'insight-card-canvas',
+      points: [
+        'Artwork created on stretched woven fabric, typically cotton or linen, using mediums like acrylic, oil, or watercolor.',
+        'Lightweight and portable.',
+        'Available in a wide range of sizes to suit different spaces and styles.',
+        'Creates a distinct standalone visual impact, giving artwork depth and presence away from the wall.'
+      ]
+    },
+    'texture art': {
+      kicker: 'Texture Art',
+      modifier: 'insight-card-texture',
+      points: [
+        'Texture art uses layered materials and techniques to create depth and dimension on surfaces.',
+        'Creates elegant light and shadow effects, adding visual depth.',
+        'Durable and long-lasting when professionally executed.',
+        'Creates a sophisticated alternative to flat wall finishes.'
+      ]
+    }
+  };
+
+  function renderInsightCard(category) {
+    const insightsContainer = document.querySelector('[data-insights-container]');
+
+    if (!insightsContainer) {
+      return;
+    }
+
+    const data = INSIGHT_DATA[category];
+
+    if (!data) {
+      /* No matching insight (e.g. "All" or a category without an insight card) */
+      insightsContainer.innerHTML = '';
+      insightsContainer.hidden = true;
+      return;
+    }
+
+    const listItems = data.points
+      .map((point) => `<li>${escapeHtml(point)}</li>`)
+      .join('');
+
+    /* Replace — never append — so there is always exactly one card */
+    insightsContainer.innerHTML = `
+      <div class="work-insights-grid">
+        <article class="insight-card ${escapeHtml(data.modifier)} reveal">
+          <span class="insight-kicker">${escapeHtml(data.kicker)}</span>
+          <ul>${listItems}</ul>
+        </article>
+      </div>`;
+
+    insightsContainer.hidden = false;
+    initScrollReveal();
+  }
+
   function renderFilters(works) {
     if (!filterBar || featuredOnly) {
       return;
@@ -164,6 +231,9 @@
         return `<button class="filter-btn ${activeClass}" type="button" data-filter="${escapeHtml(category.toLowerCase())}">${escapeHtml(category)}</button>`;
       })
       .join('');
+
+    /* Ensure the insights container starts empty/hidden — no static cards to hide */
+    renderInsightCard('all');
 
     filterBar.addEventListener('click', (event) => {
       const button = event.target.closest('.filter-btn');
@@ -179,28 +249,12 @@
 
       worksGrid.querySelectorAll('.work-card').forEach((card) => {
         const match = category === 'all' || card.dataset.category === category;
-        // Only show cards that match the selected category
         card.style.display = match ? '' : 'none';
       });
 
-      // Show/hide insight cards based on filter
-      const insightsContainer = document.querySelector('[data-insights-container]');
-      if (insightsContainer) {
-        const insightCards = insightsContainer.querySelectorAll('[data-insight-filter]');
-        insightCards.forEach((card) => {
-          const insightFilter = card.dataset.insightFilter;
-          const shouldShow = category !== 'all' && insightFilter === category;
-          card.style.display = shouldShow ? 'block' : 'none';
-        });
-        insightsContainer.style.display = category === 'all' ? 'none' : 'block';
-      }
-    }, { once: false });
-
-    // Hide insights on initial load
-    const insightsContainer = document.querySelector('[data-insights-container]');
-    if (insightsContainer) {
-      insightsContainer.style.display = 'none';
-    }
+      /* Replace the insight section with exactly one matching card (or nothing) */
+      renderInsightCard(category === 'all' ? 'all' : category);
+    });
   }
 
   function renderWorks(works) {
