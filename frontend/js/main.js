@@ -259,6 +259,8 @@
       muted
       loop
       playsinline
+      preload="auto"
+      oncanplay="this.play()"
     >
       <source src="${insight.video}" type="video/mp4">
     </video>
@@ -726,3 +728,7 @@
       .replaceAll("'", '&#039;');
   }
 })();
+document.querySelectorAll('video').forEach(video => {
+  video.muted = true;
+  video.play().catch(() => {});
+});
