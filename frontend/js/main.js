@@ -9,7 +9,6 @@
   const worksGrid = document.querySelector('[data-works-grid], .works-grid');
   const filterBar = document.querySelector('[data-filter-bar], .works-filter-bar');
   const featuredOnly = document.body.dataset.page === 'home';
-  const isGithubPages = window.location.hostname.endsWith('github.io');
   const workInsights = [
     {
       category: 'Wall Murals',
@@ -158,7 +157,7 @@
         setTimeout(() => showReveal(entry.target), index * 70);
         observer.unobserve(entry.target);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
 
     elements.forEach((element) => observer.observe(element));
   }
@@ -168,32 +167,10 @@
   }
 
   async function loadWorks() {
-    try {
-      if (isGithubPages) {
-        const works = getBundledWorks();
-        const visibleWorks = featuredOnly ? works.slice(0, 8) : works;
-        renderFilters(works);
-        renderWorks(visibleWorks);
-        return;
-      }
-
-      const response = await fetch('api/works');
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch artworks.');
-      }
-
-      const works = mergeBundledCanvasWorks(await response.json());
-      const visibleWorks = featuredOnly ? works.slice(0, 8) : works;
-
-      renderFilters(works);
-      renderWorks(visibleWorks);
-    } catch (error) {
       const works = getBundledWorks();
       const visibleWorks = featuredOnly ? works.slice(0, 8) : works;
       renderFilters(works);
       renderWorks(visibleWorks);
-    }
   }
 
 
@@ -248,7 +225,7 @@
         }
 
         return `
-         <section class="work-category-section reveal ${escapeHtml(normalizeCategory(category).replace(/\s+/g, '-'))}"
+         <section class="work-category-section ${escapeHtml(normalizeCategory(category).replace(/\s+/g, '-'))}"
          data-work-section="${escapeHtml(normalizeCategory(category))}">
          <div class="work-section-top">
 
@@ -298,8 +275,8 @@
     const meta = year ? `${category} | ${year}` : category;
 
     return `
-      <article class="work-card reveal" tabindex="0" role="button" aria-label="Open ${escapeHtml(title)}" data-category="${escapeHtml(category.toLowerCase())}" data-image="${escapeHtml(imageUrl)}" data-title="${escapeHtml(title)}" data-meta="${escapeHtml(meta)}" style="transition-delay:${index * 0.04}s">
-        <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" loading="lazy">
+      <article class="work-card" tabindex="0" role="button" aria-label="Open ${escapeHtml(title)}" data-category="${escapeHtml(category.toLowerCase())}" data-image="${escapeHtml(imageUrl)}" data-title="${escapeHtml(title)}" data-meta="${escapeHtml(meta)}" style="transition-delay:${index * 0.04}s">
+        <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}">
         <div class="work-card-overlay">
           <div class="work-card-title">${escapeHtml(title)}</div>
           <div class="work-card-cat">${escapeHtml(meta)}</div>
@@ -467,228 +444,613 @@
 
   function getBundledWorks() {
     return [
-      {
-        _id: 'texture-01',
-        title: 'Texture Art Study 01',
-        category: 'Texture Art',
-        year: 2026,
-        imageUrl: 'assets/works/texture-art-01.jpeg'
-      },
-      {
-        _id: 'texture-02',
-        title: 'Texture Art Study 02',
-        category: 'Texture Art',
-        year: 2026,
-        imageUrl: 'assets/works/texture-art-02.jpeg'
-      },
-      {
-        _id: 'texture-03',
-        title: 'Texture Art Study 03',
-        category: 'Texture Art',
-        year: 2026,
-        imageUrl: 'assets/works/texture-art-03.jpeg'
-      },
-      {
-        _id: 'texture-04',
-        title: 'Texture Art Study 04',
-        category: 'Texture Art',
-        year: 2026,
-        imageUrl: 'assets/works/texture-art-04.jpeg'
-      },
-      {
-        _id: 'texture-05',
-        title: 'Texture Art Study 05',
-        category: 'Texture Art',
-        year: 2026,
-        imageUrl: 'assets/works/texture-art-05.jpeg'
-      },
+      ...getTextureWorks(),
       ...getCanvasWorks(),
-      {
-        _id: 'mural-01',
-        title: 'Wall Mural Study 01',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-01.jpeg'
-      },
-      {
-        _id: 'mural-02',
-        title: 'Wall Mural Study 02',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-02.jpeg'
-      },
-      {
-        _id: 'mural-03',
-        title: 'Wall Mural Study 03',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-03.jpeg'
-      },
-      {
-        _id: 'mural-04',
-        title: 'Wall Mural Study 04',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-04.jpeg'
-      },
-      {
-        _id: 'mural-05',
-        title: 'Wall Mural Study 05',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-05.jpeg'
-      },
-      {
-        _id: 'mural-06',
-        title: 'Wall Mural Study 06',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-06.jpeg'
-      },
-      {
-        _id: 'mural-07',
-        title: 'Wall Mural Study 07',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-07.jpeg'
-      },
-      {
-        _id: 'mural-08',
-        title: 'Wall Mural Study 08',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-08.jpeg'
-      },
-      {
-        _id: 'mural-09',
-        title: 'Wall Mural Study 09',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-09.jpeg'
-      },
-      {
-        _id: 'mural-10',
-        title: 'Wall Mural Study 10',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-10.jpeg'
-      },
-      {
-        _id: 'mural-11',
-        title: 'Wall Mural Study 11',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-11.jpeg'
-      },
-      {
-        _id: 'mural-12',
-        title: 'Wall Mural Study 12',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-12.jpeg'
-      },
-      {
-        _id: 'mural-13',
-        title: 'Wall Mural Study 13',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wall-mural-13.jpeg'
-      },
-      {
-        _id: 'bedback-01',
-        title: 'Bedback Mural Study 01',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-03.jpeg'
-      },
-      {
-        _id: 'bedback-02',
-        title: 'Bedback Mural Study 02',
-        category: 'Wall Murals',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-04.jpeg'
-      },
-      {
-        _id: 'wardrobe-01',
-        title: 'Wardrobe Study 01',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-01.jpeg'
-      },
-      {
-        _id: 'wardrobe-02',
-        title: 'Wardrobe Study 02',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-02.jpeg'
-      },
-      {
-        _id: 'wardrobe-03',
-        title: 'Wardrobe Study 03',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-03.jpeg'
-      },
-      {
-        _id: 'wardrobe-04',
-        title: 'Wardrobe Study 04',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-04.jpeg'
-      },
-      {
-        _id: 'wardrobe-05',
-        title: 'Wardrobe Study 05',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-05.jpeg'
-      },
-      {
-        _id: 'wardrobe-06',
-        title: 'Wardrobe Study 06',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-06.jpeg'
-      },
-      {
-        _id: 'wardrobe-07',
-        title: 'Wardrobe Study 07',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-07.jpeg'
-      },
-      {
-        _id: 'wardrobe-08',
-        title: 'Wardrobe Study 08',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-08.jpeg'
-      },
-      {
-        _id: 'wardrobe-09',
-        title: 'Wardrobe Study 09',
-        category: 'Wardrobes',
-        year: 2026,
-        imageUrl: 'assets/works/wardrobe-09.jpeg'
-      }
+      ...getMuralWorks(),
+      ...getWardrobeWorks()
     ];
   }
 
   function getCanvasWorks() {
-    return Array.from({ length: 10 }, (_, index) => {
-      const number = String(index + 1).padStart(2, '0');
-
-      return {
-        _id: `canvas-${number}`,
-        title: `Canvas Painting Study ${number}`,
+    return [
+      {
+        _id: 'abstract-72x36-acrylics-kondhwa-pune-2025',
+        title: 'Abstract — 72” x 36” — Acrylics on Canvas — Kondhwa Pune 2025',
         category: 'Canvas Paintings',
-        year: 2026,
-        imageUrl: `assets/works/canvas-painting-${number}.jpeg`
-      };
-    });
+        year: 2025,
+        imageUrl: 'assets/works/canvas/Abstract _ 72” x 36” _ acrylics on canvas_ 2025, Kondhwa Pune.jpg'
+      },
+      {
+        _id: 'abstract-72x36-acrylics-kondhwa-pune-2025-2',
+        title: 'Abstract — 72” x 36” — Acrylics on Canvas — Kondhwa Pune 2025 (Alternate View)',
+        category: 'Canvas Paintings',
+        year: 2025,
+        imageUrl: 'assets/works/canvas/Abstract _ 72” x 36” _ acrylics on canvas_ 2025, Kondhwa Pune(1).jpg'
+      },
+      {
+        _id: 'motifs-18x36-acrylics-raigad-2025',
+        title: 'Motifs — 18” x 36” — Acrylics on Canvas — Raigad 2025',
+        category: 'Canvas Paintings',
+        year: 2025,
+        imageUrl: 'assets/works/canvas/Motifs _ 18” x 36” _ acrylics on canvas, 2025, Raigad .jpg'
+      },
+      {
+        _id: 'snow-mountains-72x48-acrylics-mundhwa-pune-2025',
+        title: 'Snow Mountains — 72” x 48” — Acrylics on Canvas — Mundhwa Pune 2025',
+        category: 'Canvas Paintings',
+        year: 2025,
+        imageUrl: 'assets/works/canvas/Snow mountains _ 72” x 48” _ Acrylics on canvas _ 2025, Mundhwa, Pune.jpg'
+      },
+      {
+        _id: 'southern-star-golf-course-camp-pune-2025',
+        title: 'Southern Star Golf Course — Camp Pune 2025',
+        category: 'Canvas Paintings',
+        year: 2025,
+        imageUrl: 'assets/works/canvas/Southern star golf course, camp, Pune 2025.jpg'
+      },
+      {
+        _id: 'the-elephant-2024',
+        title: 'The Elephant — 2024',
+        category: 'Canvas Paintings',
+        year: 2024,
+        imageUrl: 'assets/works/canvas/The Elephant - 2024.jpg'
+      }
+    ];
   }
 
-  function createArtworkSvg(palette) {
+  function getTextureWorks() {
+    return [
+      {
+        _id: 'abstract-72x36-mdf-material-kondhwa-pune-2025',
+        title: 'Abstract — 72” x 36” — MDF Material — Kondhwa Pune 2025',
+        category: 'Texture Art',
+        year: 2025,
+        imageUrl: 'assets/works/texture/Abstract _ 72” x 36” _ MDF material _ 2025, Kondhwa Pune.jpg'
+      },
+      {
+        _id: 'r-p-kothrud-pune-2024',
+        title: 'Residential Project Kothrud Pune 2024',
+        category: 'Texture Art',
+        year: 2024,
+        imageUrl: 'assets/works/texture/R P Kothrud Pune 2024.jpg'
+      },
+      {
+        _id: 'residential-project-pune-2024',
+        title: 'Residential Project — Pune 2024',
+        category: 'Texture Art',
+        year: 2024,
+        imageUrl: 'assets/works/texture/Residential project 2024.jpg'
+      },
+      {
+        _id: 'residential-project-pune-2024-1',
+        title: 'Residential Project — Pune 2024 (View 2)',
+        category: 'Texture Art',
+        year: 2024,
+        imageUrl: 'assets/works/texture/Residential project 2024(1).jpg'
+      },
+      {
+        _id: 'residential-project-pune-2024-2',
+        title: 'Residential Project — Pune 2024 (View 3)',
+        category: 'Texture Art',
+        year: 2024,
+        imageUrl: 'assets/works/texture/Residential project 2024(2).jpg'
+      },
+      {
+        _id: 'residential-project-pune-2024-3',
+        title: 'Residential Project — Pune 2024 (View 4)',
+        category: 'Texture Art',
+        year: 2024,
+        imageUrl: 'assets/works/texture/Residential project 2024(3).jpg'
+      },
+      {
+        _id: 'residential-project-pune-2024-variant',
+        title: 'Residential Project — Pune 2024 (Pune Variation)',
+        category: 'Texture Art',
+        year: 2024,
+        imageUrl: 'assets/works/texture/Residential Project, Pune - 2024 .jpg'
+      },
+      {
+        _id: 'rp-kothrud-2025',
+        title: 'Residential Project Kothrud 2025',
+        category: 'Texture Art',
+        year: 2025,
+        imageUrl: 'assets/works/texture/RP Kothrud 2025.JPG'
+      },
+      {
+        _id: 'rp-kothrud-pune-2025',
+        title: 'Residential Project Kothrud Pune 2025',
+        category: 'Texture Art',
+        year: 2025,
+        imageUrl: 'assets/works/texture/RP Kothrud Pune 2025.JPG'
+      },
+      {
+        _id: 'rp-sinhgad-road-pune-2025',
+        title: 'Residential Project Sinhgad Road — Pune 2025',
+        category: 'Texture Art',
+        year: 2025,
+        imageUrl: 'assets/works/texture/RP sinhgad road, Pune 2025.jpg'
+      }
+    ];
+  }
+
+  function getWardrobeWorks() {
+    return [
+      {
+        _id: 'residential-project-pune-2024',
+        title: 'Residential Project — Pune 2024',
+        category: 'Wardrobes',
+        year: 2024,
+        imageUrl: 'assets/works/wardrobe/Residential project Pune 2024.jpg'
+      },
+      {
+        _id: 'residential-project-at-eka-elitas-kothrud-pune-2025',
+        title: 'Residential Project at Eka Elitas — Kothrud Pune 2025',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP at eka elitas Kothrud 2025.jpg'
+      },
+      {
+        _id: 'residential-project-eka-elitas-kothrud-pune-2025-2',
+        title: 'Residential Project, Eka Elitas — Kothrud Pune 2025 (View 2)',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP eka elitas Kothrud 2025(1).jpg'
+      },
+      {
+        _id: 'residential-project-eka-elitas-kothrud-pune-2025-3',
+        title: 'Residential Project, Eka Elitas — Kothrud Pune 2025 (View 3)',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/Rp eka elitas Kothrud 2025.jpg'
+      },
+      {
+        _id: 'residential-project-mundhwa-pune-2025',
+        title: 'Residential Project, Mundhwa Pune 2025',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP mundhwa Pune 2025.jpg'
+      },
+      {
+        _id: 'residential-project-mundhwa-pune-2025-alt',
+        title: 'Residential Project, Mundhwa Pune 2025 (Alternate View)',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP. Mundhwa Pune 2025.jpg'
+      },
+      {
+        _id: 'residential-project-mundhwa-pune-2025-detail-2',
+        title: 'Residential Project, Mundhwa Pune 2025 (Detail 2)',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP mundhwa Pune 2025(1).jpg'
+      },
+      {
+        _id: 'residential-project-mundhwa-pune-2025-detail-3',
+        title: 'Residential Project, Mundhwa Pune 2025 (Detail 3)',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP mundhwa pune 2025(2).jpg'
+      },
+      {
+        _id: 'residential-project-mundhwa-pune-2025-detail-4',
+        title: 'Residential Project, Mundhwa Pune 2025 (Detail 4)',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP mundhwa Pune 2025(3).jpg'
+      },
+      {
+        _id: 'residential-project-vimannagar-pune-2025',
+        title: 'Residential Project, Vimannagar Pune 2025',
+        category: 'Wardrobes',
+        year: 2025,
+        imageUrl: 'assets/works/wardrobe/RP vimannagar Pune 2025.jpg'
+      }
+    ];
+  }
+
+  function getMuralWorks() {
+    return [
+    {
+      "_id": "architects-office-deccan-pune-2022",
+      "title": "Architects Office, Deccan Pune - 2022",
+      "category": "Wall Murals",
+      "year": 2022,
+      "imageUrl": "assets/works/murals/Architects Office, Deccan Pune - 2022.JPG"
+    },
+    {
+      "_id": "aster-coworkinb-space-deccan-pune-2023",
+      "title": "Aster coworkinb space Deccan Pune 2023",
+      "category": "Wall Murals",
+      "year": 2023,
+      "imageUrl": "assets/works/murals/Aster coworkinb space Deccan Pune 2023.JPG"
+    },
+    {
+      "_id": "coffee-house-restaurant-camp-pune-2025",
+      "title": "Coffee house restaurant, camp Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Coffee house restaurant, camp Pune 2025.JPG"
+    },
+
+    {
+      "_id": "felice-restaurant-kothrud-pune-2025-1",
+      "title": "Felice Restaurant, Kothrud Pune 2025 (1)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Felice Restaurant, Kothrud Pune 2025  (1).jpg"
+    },
+    {
+      "_id": "felice-restaurant-kothrud-pune-2025-1-1",
+      "title": "Felice Restaurant, Kothrud Pune 2025 (1)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Felice Restaurant, Kothrud Pune 2025 (1).jpg"
+    },
+    {
+      "_id": "house-of-veg-restaurant-erandwane-pune-2022",
+      "title": "House of veg restaurant, Erandwane, Pune 2022",
+      "category": "Wall Murals",
+      "year": 2022,
+      "imageUrl": "assets/works/murals/House of veg restaurant, Erandwane, Pune 2022.JPG"
+    },
+    {
+      "_id": "kalash-properties-aundh-2024",
+      "title": "Kalash Properties, Aundh 2024",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/Kalash Properties, Aundh 2024.jpg"
+    },
+    {
+      "_id": "majestic-landmarks-balewadi-high-street-pune-2024",
+      "title": "Majestic landmarks, Balewadi high street, Pune 2024",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/Majestic landmarks,  Balewadi high street, Pune 2024.jpg"
+    },
+    {
+      "_id": "majestic-landmarks-balewadi-high-street-pune-2024-1",
+      "title": "Majestic landmarks, Balewadi high street Pune 2024",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/Majestic landmarks, Balewadi high street Pune 2024.jpg"
+    },
+    {
+      "_id": "mit-vpu-solapur-2025",
+      "title": "MIT VPU, Solapur 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/MIT VPU, Solapur 2025.jpg"
+    },
+    {
+      "_id": "mtdc-aurangabad-2024",
+      "title": "MTDC Aurangabad, 2024",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/MTDC Aurangabad, 2024.jpg"
+    },
+    {
+      "_id": "r-p-pune-2026",
+      "title": "Residential project pune 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/R p pune 2026.jpg"
+    },
+    {
+      "_id": "residential-project-2023",
+      "title": "Residential project 2023",
+      "category": "Wall Murals",
+      "year": 2023,
+      "imageUrl": "assets/works/murals/Residential project 2023.JPG"
+    },
+    {
+      "_id": "restaurant-in-pune-2023",
+      "title": "Restaurant in Pune - 2023",
+      "category": "Wall Murals",
+      "year": 2023,
+      "imageUrl": "assets/works/murals/Restaurant in Pune - 2023.jpeg"
+    },
+    {
+      "_id": "rp-bungalow-in-bhugaon-pune-is-2025-1",
+      "title": "Residential Project _ Bungalow in Bhugaon, Pune is 2025 (1)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP _ Bungalow in Bhugaon, Pune is 2025 (1).jpg"
+    },
+    {
+      "_id": "rp-bungalow-in-bhugaon-pune-is-2025-2",
+      "title": "Residential Project _ Bungalow in Bhugaon, Pune is 2025 (2)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP _ Bungalow in Bhugaon, Pune is 2025 (2).jpg"
+    },
+    {
+      "_id": "rp-bungalow-in-bhugaon-pune-is-2025",
+      "title": "Residential Project _ Bungalow in Bhugaon, Pune is 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP _ Bungalow in Bhugaon, Pune is 2025.jpg"
+    },
+
+
+    {
+      "_id": "rp-amanora-township-pune-2025",
+      "title": "Residential Project Amanora township Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP Amanora township Pune 2025.jpg"
+    },
+    {
+      "_id": "rp-at-a-bungalow-in-kothrud-pune-2025-1",
+      "title": "Residential Project at a bungalow in Kothrud Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP at a bungalow in Kothrud Pune 2025.jpg"
+    },
+    {
+      "_id": "rp-balewadi-high-street-pune-2024",
+      "title": "Residential Project Balewadi high street Pune 2024",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/RP Balewadi high street Pune 2024.JPG"
+    },
+    {
+      "_id": "rp-baner-2025",
+      "title": "Residential Project Baner 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP Baner 2025.jpg"
+    },
+    {
+      "_id": "rp-bhugaon-2025",
+      "title": "Residential Project bhugaon 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP bhugaon 2025.jpg"
+    },
+    {
+      "_id": "rp-bhugaon-pune-2025",
+      "title": "Residential Project bhugaon Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP bhugaon Pune 2025.jpg"
+    },
+
+    {
+      "_id": "rp-eka-elitas-kothrud-pune-2026",
+      "title": "Residential Project eka elitas Kothrud Pune 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP eka elitas Kothrud Pune 2026.jpg"
+    },
+    {
+      "_id": "rp-eka-elitas-kothrud-pune-2026-1-1",
+      "title": "Residential Project Eka elitas Kothrud Pune 2026(1)",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP Eka elitas Kothrud Pune 2026(1).jpg"
+    },
+    {
+      "_id": "rp-eka-elitas-kothrud-pune-2026-2",
+      "title": "Residential Project eka elitas, Kothrud, Pune 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP eka elitas, Kothrud, Pune 2026.jpg"
+    },
+
+    {
+      "_id": "rp-kharadi-pune",
+      "title": "Residential Project kharadi Pune",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP kharadi Pune.jpg"
+    },
+    {
+      "_id": "rp-kharadi-pune-1-1",
+      "title": "Residential Project kharadi Pune(1)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP kharadi Pune(1).jpg"
+    },
+    {
+      "_id": "rp-kothrud-2024",
+      "title": "Residential Project Kothrud 2024",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/RP Kothrud 2024.jpg"
+    },
+    
+
+    {
+      "_id": "rp-kothrud-2026",
+      "title": "Residential Project Kothrud 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP Kothrud 2026.jpg"
+    },
+    {
+      "_id": "rp-kothrud-2026-1-1",
+      "title": "Residential Project Kothrud 2026(1)",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/Rp Kothrud 2026(1).jpg"
+    },
+    {
+      "_id": "rp-kothrud-2026-2-1",
+      "title": "Residential Project Kothrud 2026(2)",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/Rp Kothrud 2026(2).jpg"
+    },
+
+    {
+      "_id": "rp-kothrud-pune-2025",
+      "title": "Residential Project Kothrud Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP Kothrud Pune 2025.jpg"
+    },
+    {
+      "_id": "rp-kothrud-pune-2025-1-1",
+      "title": "Residential Project Kothrud Pune 2025(1)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Rp Kothrud Pune 2025(1).jpg"
+    },
+    {
+      "_id": "rp-kothrud-pune-2026-1",
+      "title": "Residential Project Kothrud Pune 2026 (1)",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP Kothrud Pune 2026 (1).jpg"
+    },
+
+    {
+      "_id": "rp-kothrud-pune-2026",
+      "title": "Residential Project Kothrud Pune 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP Kothrud Pune 2026.jpg"
+    },
+
+    {
+      "_id": "rp-kothrud-pune-2026-2-1",
+      "title": "Residential Project Kothrud Pune 2026(2)",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP Kothrud Pune 2026(2).jpg"
+    },
+
+    {
+      "_id": "rp-sindh-society-aundh-2025",
+      "title": "Residential Project Sindh Society Aundh 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP Sindh Society Aundh 2025.jpg"
+    },
+
+    {
+      "_id": "rp-sindh-society-aundh-2025-2",
+      "title": "Residential Project Sindh Society Aundh 2025(2)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP Sindh Society Aundh 2025(2).jpg"
+    },
+    {
+      "_id": "rp-sindh-society-aundh-2025-3",
+      "title": "Residential Project Sindh Society, Aundh 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP Sindh Society, Aundh 2025.jpg"
+    },
+    {
+      "_id": "rp-warje-2025",
+      "title": "Residential Project warje 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Rp warje 2025.jpg"
+    },
+    {
+      "_id": "rp-warje-2025-1",
+      "title": "Residential Project warje 2025(1)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP warje 2025(1).jpg"
+    },
+    {
+      "_id": "rp-bandra-mumbai-2025",
+      "title": "Residential Project, Bandra, Mumbai 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP, Bandra, Mumbai 2025.jpg"
+    },
+    {
+      "_id": "rp-bandra-mumbai-2025-1",
+      "title": "Residential Project, Bandra, Mumbai 2025(1)",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP, Bandra, Mumbai 2025(1).jpg"
+    },
+    {
+      "_id": "rp-baner-pune-2026",
+      "title": "Residential Project, Baner, Pune 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/RP, Baner, Pune 2026.jpg"
+    },
+    {
+      "_id": "rp-kothrud-pune-2025-2",
+      "title": "Residential Project, Kothrud Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/RP, Kothrud Pune 2025.jpg"
+    },
+    {
+      "_id": "southern-star-golf-course-camp-pune-2025",
+      "title": "Southern star golf course, camp, Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Southern star golf course, camp, Pune 2025.jpg"
+    },
+    {
+      "_id": "splendid-courtyard-yashada-realty-group-lohegaon-pune-2023",
+      "title": "Splendid courtyard, Yashada Realty group, Lohegaon , Pune 2023",
+      "category": "Wall Murals",
+      "year": 2023,
+      "imageUrl": "assets/works/murals/Splendid courtyard, Yashada Realty group, Lohegaon , Pune 2023.JPG"
+    },
+    {
+      "_id": "the-walnut-tree-cafe-koregaon-park-pune-2023",
+      "title": "The walnut tree cafe, Koregaon park, Pune 2023",
+      "category": "Wall Murals",
+      "year": 2023,
+      "imageUrl": "assets/works/murals/The walnut tree cafe, Koregaon park, Pune 2023.JPG"
+    },
+    {
+      "_id": "vantage-21-yashada-realty-group-2024",
+      "title": "Vantage 21, Yashada Realty group 2024",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/Vantage 21, Yashada Realty group 2024.jpg"
+    },
+    {
+      "_id": "vantage-21-yashada-realty-group-2024-1",
+      "title": "Vantage 21, Yashada Realty group 2024(1)",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/Vantage 21, Yashada Realty group 2024(1).jpg"
+    },
+    {
+      "_id": "vantage-21-yashada-realty-group-2024-2",
+      "title": "Vantage 21, Yashada Realty Group 2024(2)",
+      "category": "Wall Murals",
+      "year": 2024,
+      "imageUrl": "assets/works/murals/Vantage 21, Yashada Realty Group 2024(2).jpg"
+    },
+    {
+      "_id": "voyya-travels-shivajinagar-pune-2025",
+      "title": "Voyya Travels, Shivajinagar Pune 2025",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Voyya Travels, Shivajinagar Pune 2025.jpg"
+    },
+    {
+      "_id": "welworth-purnam-grow-india-llp-hinjewadi-pune-2026",
+      "title": "Welworth Purnam, grow India LLP, hinjewadi, Pune 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/Welworth Purnam, grow India LLP, hinjewadi, Pune 2026.jpg"
+    },
+    {
+      "_id": "welworth-purnam-grow-india-real-on-llp-hinjewadi-pune-2026",
+      "title": "Welworth Purnam, grow India real on LLP, hinjewadi, Pune 2026",
+      "category": "Wall Murals",
+      "year": 2026,
+      "imageUrl": "assets/works/murals/Welworth Purnam, grow India real on LLP, hinjewadi, Pune 2026.jpg"
+    }
+  ];
+}
+
+function createArtworkSvg(palette) {
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-label="Artwork preview">
         <rect width="900" height="1200" fill="${palette.sky}"/>
