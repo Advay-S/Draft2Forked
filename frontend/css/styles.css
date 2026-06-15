@@ -758,13 +758,14 @@ main > .section-heading {
   background: var(--bg);
 }
 
-body[data-page="works"] .works-grid {
+body[data-page="Portfolio"] .works-grid {
   display: block;
   border-top: 1px solid var(--gray-light);
   background: var(--bg);
 }
 
 .work-category-section {
+  grid-column: 1 / -1;
   border-bottom: 1.5px solid var(--black);
   background: var(--bg);
 }
