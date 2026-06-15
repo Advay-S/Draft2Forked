@@ -659,7 +659,7 @@
     },
     {
       "_id": "aster-coworkinb-space-deccan-pune-2023",
-      "title": "Aster coworkinb space Deccan Pune 2023",
+      "title": "Aster coworking space Deccan Pune 2023",
       "category": "Wall Murals",
       "year": 2023,
       "imageUrl": "assets/works/murals/Aster coworkinb space Deccan Pune 2023.JPG"
