@@ -679,6 +679,13 @@
       "year": 2025,
       "imageUrl": "assets/works/murals/Felice Restaurant, Kothrud Pune 2025  (1).jpg"
     },
+    { // to be added here 
+      "_id": "felice-restaurant-kothrud-latest-update",
+      "title": "Felice Restaurant, Kothrud Pune 2025 ",
+      "category": "Wall Murals",
+      "year": 2025,
+      "imageUrl": "assets/works/murals/Felice Restaurant, Kothrud Latest update.JPG"
+    },
     {
       "_id": "felice-restaurant-kothrud-pune-2025-1-1",
       "title": "Felice Restaurant, Kothrud Pune 2025 (1)",
