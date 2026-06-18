@@ -758,13 +758,14 @@ main > .section-heading {
   background: var(--bg);
 }
 
-body[data-page="works"] .works-grid {
+body[data-page="Portfolio"] .works-grid {
   display: block;
   border-top: 1px solid var(--gray-light);
   background: var(--bg);
 }
 
 .work-category-section {
+  grid-column: 1 / -1;
   border-bottom: 1.5px solid var(--black);
   background: var(--bg);
 }
@@ -1515,6 +1516,10 @@ body[data-page="works"] .works-grid {
    WORK INSIGHTS SECTION
    ============================================================ */
 
+/* ============================================================
+   WORK INSIGHTS SECTION
+   ============================================================ */
+
 .work-insights-section {
   position: relative;
   overflow: hidden;
@@ -1536,122 +1541,58 @@ body[data-page="works"] .works-grid {
   padding: 22px 36px 0;
 }
 
+/* BASE CARD */
+
 .insight-card {
   position: relative;
   min-height: 0;
   padding: clamp(30px, 3vw, 48px);
-
-  background: rgba(20,20,20,0.25);
-
+  background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-
-  border: 1px solid rgba(255,255,255,0.15);
-
-  color: #fff;
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  color: #000;
+  transform: none;
 }
-
-/* REMOVE STICKY NOTE WHITE BOX */
 
 .insight-card::before {
   display: none;
 }
 
-/* CLEAN STRAIGHT CARDS */
+/* ALL CARD VARIANTS — share same frosted style */
 
-.insight-card-murals {
-  position: relative;
-  z-index: 3;
-  max-width: 700px;
-  min-height: 50px;
-  background: rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  border: 1px solid rgba(255,255,255,0.18);
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.25);
-
-  color: #fff;
-
-  transform: none;
-}
-
-.insight-card-murals .insight-kicker {
-  color: #fff;
-}
-
-.insight-card-murals li {
-  color: rgba(255,255,255,0.88);
-}
-
-.insight-Canvas-Paintings {
-  position: relative;
-  z-index: 3;
-  min-height: 100px;
-
-  background: rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  border: 1px solid rgba(255,255,255,0.18);
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.25);
-
-  color: #fff;
-
-  transform: none;
-}
-
-.insight-card-texture {
-  position: relative;
-  z-index: 3;
-
-  background: rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  border: 1px solid rgba(255,255,255,0.18);
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.25);
-
-  color: #fff;
-
-  transform: none;
-}
-
+.insight-card-murals,
+.insight-Canvas-Paintings,
+.insight-card-texture,
 .insight-card-wardrobes {
   position: relative;
   z-index: 3;
-
-  background: rgba(255, 255, 255, 0.08);
-
+  background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-
-  border: 1px solid rgba(255,255,255,0.18);
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.25);
-
-  color: #fff;
-
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  color: #000;
   transform: none;
+}
+
+/* ALL TEXT BLACK */
+
+.insight-card li,
+.insight-card li strong,
+.insight-card li span,
+.insight-card-murals li,
+.insight-card-murals li strong,
+.insight-card-murals .insight-kicker {
+  color: #000 !important;
 }
 
 .insight-kicker {
   display: block;
   max-width: 240px;
   margin-bottom: 24px;
+  color: #000;
   font-family: var(--font-display);
   font-size: clamp(32px, 4vw, 52px);
   line-height: 0.95;
@@ -1667,13 +1608,13 @@ body[data-page="works"] .works-grid {
 .insight-card li {
   display: grid;
   gap: 4px;
-  color: rgba(255,255,255,0.9);
+  color: #000;
   font-size: 14px;
   line-height: 1.55;
 }
 
 .insight-card li strong {
-  color: #fff;
+  color: #000;
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1681,11 +1622,7 @@ body[data-page="works"] .works-grid {
 
 .insight-card li span {
   display: block;
-}
-
-.insight-card-murals li strong,
-.insight-card-murals li {
-  color: rgba(255,255,255,0.9);
+  color: #000;
 }
 /* REMOVE TITLE STROKE ANIMATIONS */
 

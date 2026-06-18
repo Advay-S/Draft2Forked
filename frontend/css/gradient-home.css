@@ -170,8 +170,7 @@
 
     position:relative;
 
-   background-image:
-  url("../assets/works/abstract-bg.jpg");
+   background: #E1B053;
 
 background-size: cover;
 background-position: center;
