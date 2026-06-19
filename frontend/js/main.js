@@ -166,12 +166,38 @@
     element.classList.add('visible', 'is-visible');
   }
 
-  async function loadWorks() {
-      const works = getBundledWorks();
-      const visibleWorks = featuredOnly ? works.slice(0, 8) : works;
-      renderFilters(works);
-      renderWorks(visibleWorks);
-  }
+  function shuffleArray(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+async function loadWorks() {
+    const works = getBundledWorks();
+
+    let visibleWorks = works;
+
+    if (featuredOnly) {
+        visibleWorks = [
+            ...shuffleArray(
+                works.filter(w => w.category === 'Wall Murals')
+            ).slice(0, 2),
+
+            ...shuffleArray(
+                works.filter(w => w.category === 'Canvas Paintings')
+            ).slice(0, 2),
+
+            ...shuffleArray(
+                works.filter(w => w.category === 'Texture Art')
+            ).slice(0, 2),
+
+            ...shuffleArray(
+                works.filter(w => w.category === 'Wardrobes')
+            ).slice(0, 2)
+        ];
+    }
+
+    renderFilters(works);
+    renderWorks(visibleWorks);
+}
 
 
   function renderFilters(works) {
