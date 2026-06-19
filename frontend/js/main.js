@@ -14,41 +14,41 @@
       category: 'Wall Murals',
       className: 'insight-card-murals',
       video: 'assets/works/Wall-murals-bg.mp4',
-      points: [
-        ['Statement Pieces', 'Transform plain walls into visually striking focal points.'],
-        ['Tailored Designs', 'Flexible themes, styles, colours, and compositions to suit the space.'],
-        ['Made to Last', 'Professionally executed finishes with long-term durability.']
-      ]
+     points: [
+       'Large scale artworks created directly on walls.',
+       'Flexible themes, styles, colours, and compositions to suit the space',
+       'Durable unlike wallpapers that may peel overtime.'
+]
     },
     {
       category: 'Canvas Paintings',
       className: 'insight-card-canvas',
       video: 'assets/works/Canvas-paintings-bg.mp4',
-      points: [
-        ['Standalone Presence', 'Creates depth and a distinct visual impact.'],
-        ['Portable', 'Lightweight and easy to move or reposition.'],
-        ['Versatile Sizes', 'Available in multiple sizes for different spaces.']
-      ]
+     points: [
+       'Artwork created on stretched woven cotton fabric using medium like acrylic, oil or watercolour.',
+       'Lightweight and portable',
+       'Available in multiple sizes for different spaces'
+]
     },
     {
       category: 'Texture Art',
       className: 'insight-card-texture',
       video: 'assets/works/Texture-art-bg.mp4',
       points: [
-        ['Depth & Dimension', 'Layered finishes create a rich tactile effect.'],
-        ['Elegant Light Play', 'Enhances shadows and highlights beautifully.'],
-        ['Durable', 'Long-lasting when professionally executed.']
-      ]
+       'Artwork created using a texture paste primarily consisting of pop & putty.',
+       'Enhances shadows and highlights',
+       'A great alternative to flat wall finishes.'
+]
     },
     {
       category: 'Wardrobes',
       className: 'insight-card-wardrobes',
       video: 'assets/works/Wadrobe-bg.mp4',
       points: [
-        ['Custom Surfaces', 'Painted details turn everyday storage into a designed feature.'],
-        ['Room-Led Design', 'Colours, motifs, and finishes can be matched to the surrounding space.'],
-        ['Functional Finish', 'Decorative work is planned around surfaces that are used every day.']
-      ]
+      'Wardrobe painting is created directly on plywood/MDF instead of laminates.',
+      'The surface is prepared with putty, primer, and base coats to achieve a smooth finish for painting.',
+      'Allows a creative freedom in terms of colours, textures and finishes.'
+]
     }
   ];
 
