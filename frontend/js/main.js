@@ -317,8 +317,7 @@ async function loadWorks() {
       <article class="insight-card ${escapeHtml(insight.className)}">
         <!-- title removed -->
         <ul>
-          ${insight.points.map(([title, text]) => `<li><strong>${escapeHtml(title)}</strong><span>${escapeHtml(text)}</span></li>`).join('')}
-        </ul>
+         ${insight.points.map(([text]) => `<li>${escapeHtml(text)}</li>`).join('')} </ul>
       </article>
     `;
   }
