@@ -15,29 +15,29 @@
       className: 'insight-card-murals',
       video: 'assets/works/Wall-murals-bg.mp4',
      points: [
-       'Large scale artworks created directly on walls.',
-       'Flexible themes, styles, colours, and compositions to suit the space',
-       'Durable unlike wallpapers that may peel overtime.'
-]
+       ['Large scale artworks created directly on walls.'],
+       ['Flexible themes, styles, colours, and compositions to suit the space'],
+       ['Durable unlike wallpapers that may peel overtime.']
+              ]
     },
     {
       category: 'Canvas Paintings',
       className: 'insight-card-canvas',
       video: 'assets/works/Canvas-paintings-bg.mp4',
      points: [
-       'Artwork created on stretched woven cotton fabric using medium like acrylic, oil or watercolour.',
-       'Lightweight and portable',
-       'Available in multiple sizes for different spaces'
-]
+       ['Artwork created on stretched woven cotton fabric using medium like acrylic, oil or watercolour.'],
+       ['Lightweight and portable'],
+       ['Available in multiple sizes for different spaces']
+              ]
     },
     {
       category: 'Texture Art',
       className: 'insight-card-texture',
       video: 'assets/works/Texture-art-bg.mp4',
       points: [
-       'Artwork created using a texture paste primarily consisting of pop & putty.',
-       'Enhances shadows and highlights',
-       'A great alternative to flat wall finishes.'
+       ['Artwork created using a texture paste primarily consisting of pop & putty.'],
+       ['Enhances shadows and highlights'],
+       ['A great alternative to flat wall finishes.']
 ]
     },
     {
@@ -45,9 +45,9 @@
       className: 'insight-card-wardrobes',
       video: 'assets/works/Wadrobe-bg.mp4',
       points: [
-      'Wardrobe painting is created directly on plywood/MDF instead of laminates.',
-      'The surface is prepared with putty, primer, and base coats to achieve a smooth finish for painting.',
-      'Allows a creative freedom in terms of colours, textures and finishes.'
+      ['Wardrobe painting is created directly on plywood/MDF instead of laminates.'],
+      ['The surface is prepared with putty, primer, and base coats to achieve a smooth finish for painting.'],
+      ['Allows a creative freedom in terms of colours, textures and finishes.']
 ]
     }
   ];
