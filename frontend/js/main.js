@@ -492,7 +492,7 @@ async function loadWorks() {
         title: 'Abstract _ Acrylics on canvas _ 18” x 24” - 2025',
         category: 'Canvas Paintings',
         year: 2025,
-        imageUrl: 'frontend/assets/works/canvas/Latest/Abstract _ Acrylics on canvas _ 18” x 24” - 2025.jpg'
+        imageUrl: 'assets/works/canvas/Latest/Abstract _ Acrylics on canvas _ 18” x 24” - 2025.jpg'
       },
       {
         //done
@@ -500,42 +500,42 @@ async function loadWorks() {
         title: 'Abstract _ Acrylics on canvas _ 20” x 20” - 2025',
         category: 'Canvas Paintings',
         year: 2025,
-        imageUrl: 'frontend/assets/works/canvas/Latest/Abstract _ Acrylics on canvas _ 20” x 20” - 2025.jpg'
+        imageUrl: 'assets/works/canvas/Latest/Abstract _ Acrylics on canvas _ 20” x 20” - 2025.jpg'
       }, 
       { //done
         _id: 'peace-acrylics-on-canvas-10x14-2026',
         title: 'Peace _ Acrylics on canvas _ 10” x 14” - 2026',
         category: 'Canvas Paintings',
         year: 2026,
-        imageUrl: 'frontend/assets/works/canvas/Latest/Peace _ Acrylics on canvas _ 10” x 14” - 2026.jpg'
+        imageUrl: 'assets/works/canvas/Latest/Peace _ Acrylics on canvas _ 10” x 14” - 2026.jpg'
       },
       { //done
         _id: 'the-subtle-system-acrylics-on-canvas-18x24-2025',
         title: 'The Subtle System _ Acrylics on canvas _ 18” x 24” - 2025',
         category: 'Canvas Paintings',
         year: 2025,
-        imageUrl: 'frontend/assets/works/canvas/Latest/The Subtle System _ Acrylics on canvas _ 18” x 24” - 2025.jpg'
+        imageUrl: 'assets/works/canvas/Latest/The Subtle System _ Acrylics on canvas _ 18” x 24” - 2025.jpg'
       },
       {
     _id: 'untitled-8x10-acrylics-on-canvas-2024',
     title: 'Untitled _ 8” x 10” _ Acrylics on canvas - 2024',
     category: 'Canvas Paintings',
     year: 2024,
-    imageUrl: 'frontend/assets/works/canvas/Latest/Untitled _ 8” x 10” _ Acrylics on canvas - 2024.jpg'
+    imageUrl: 'assets/works/canvas/Latest/Untitled _ 8” x 10” _ Acrylics on canvas - 2024.jpg'
       },
       {
     _id: 'untitled-12x18-acrylics-on-canvas-2024',
     title: 'Untitled _ 12” x 18” _ Acrylics on canvas - 2024',
     category: 'Canvas Paintings',
     year: 2024,
-    imageUrl: 'frontend/assets/works/canvas/Latest/Untitled _ 12” x 18” _ Acrylics on canvas - 2024.jpg'
+    imageUrl: 'assets/works/canvas/Latest/Untitled _ 12” x 18” _ Acrylics on canvas - 2024.jpg'
       },
       {
     _id: 'untitled-acrylics-on-canvas-18x24-2024',
     title: 'Untitled _ Acrylics on canvas _ 18_ x 24_ - 2024',
     category: 'Canvas Paintings',
     year: 2024,
-    imageUrl: 'frontend/assets/works/canvas/Latest/Untitled _ Acrylics on canvas _ 18_ x 24_ - 2024.jpg'
+    imageUrl: 'assets/works/canvas/Latest/Untitled _ Acrylics on canvas _ 18_ x 24_ - 2024.jpg'
       },
       // Latest end 
       {
